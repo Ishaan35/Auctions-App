@@ -1,0 +1,46 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+    {% if user.is_authenticated %}
+        <form action="" method="post" style="display: block;">
+            {% csrf_token %}
+
+            {% if created %}
+                <div class="alert alert-success" role="alert">
+                    Listing Successfully Created!
+                </div>
+            {% endif %}
+
+            <table>
+                <tr>
+                    <td><label>Title:</label></td>
+                    <td>{{form.title}}</td>
+                </tr>
+                <tr>
+                    <td><label>Description:</label></td>
+                    <td>{{form.description}}</td>
+                </tr>
+                <tr>
+                    <td><label>Category:</label></td>
+                    <td>{{form.category}}</td>
+                </tr>
+                <tr>
+                    <td><label>Starting Bid:</label></td>
+                    <td>{{form.startBid}}</td>
+                </tr>
+                <tr>
+                    <td><label>Link to Image (URL):</label></td>
+                    <td>{{form.imageURL}}</td>
+                </tr>
+            </table>
+            
+
+            <input type="submit" value="Create Listing" style='margin-top: 20px;'>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}"><h1>Log in first</h1></a>
+    {% endif %}
+
+{% endblock %}

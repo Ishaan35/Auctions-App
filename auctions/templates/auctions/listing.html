@@ -1,0 +1,122 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+    {% if user.is_authenticated %}
+    <div style="float: right; width: 100%;">
+
+        {% if listing.buyer == user%}
+            <div class="alert alert-success" role="alert" style="color: white; background: green;" >
+                You won this bid!
+            </div>
+        {% endif %}
+    
+        <form action="" method="post" style="padding-top: 20px; margin-left: 2%;" autocomplete="off">
+            {% csrf_token %}
+            <input type="hidden" id="formType" name="formType" value="watchlist">
+
+            {% if not listing.watched %}
+                <input type="submit" value="Add to Watchlist">
+            {% else %}
+                <input type="submit" value="Remove from Watchlist">
+            {% endif %}
+        </form>
+
+        {% if listing.seller == user and listing.active %}
+        <form action="" method="post" style="padding-top: 5px; margin-left: 2%; margin-bottom: 5vh;" autocomplete="off">
+            {% csrf_token %}
+            <input type="hidden" id="formType" name="formType" value="close">
+            <input type="submit" value="Close">
+
+        </form>
+        {% endif %}
+
+    </div>
+    
+    {% endif %}
+    <div class='row' style="margin-left: 20px; border-radius: 10px; border:1px solid gray; padding: 5px; width: 95%; min-height: 60vh;">
+
+
+        <div class="card" style="width: 30%;"> 
+            <img src="{{listing.imageURL}}">   
+        </div>
+        <div class="card" style="width: 30%;" style="outline: none; border: none;">
+            <h1 class="card-title" style="padding: 10px;"> {{listing.title}}</h1>
+            <p class="card-text" style="padding-left: 10px;">{{listing.description}}</p>
+            <p class="card-text" style="padding-left: 10px;"><b>Starting Price:</b> ${{listing.startBid}}</p>
+
+            {% if listing.currentBid <= 0 %}
+                <p class="card-text" style="padding-left: 10px; color:green"><b>Current Bid:</b> None</p>
+            {% else %}
+                <p class="card-text" style="padding-left: 10px; color:green"><b>Current Bid:</b> ${{listing.currentBid}}</p>
+            {% endif %}
+
+            {% if listing.category is not None and listing.category is not null %}
+                <p class="card-title" style="padding-left: 10px;"><b>Category:</b> {{listing.category}}</p>
+            {% endif %}
+
+            {% if listing.seller is not None and listing.seller is not null %}
+                <p class="card-title" style="padding-left: 10px;"><b>Seller:</b> {{listing.seller}}</p>
+            {% endif %}
+
+            {% if user.is_authenticated and listing.active %}
+                <div>
+                
+                    <form action="" method="post" style="padding-left: 10px; padding-top:20px" autocomplete="off">
+                        {% csrf_token %}
+                        <h5>Place Bid:</h5>
+                        {{bidForm}}
+                        <input type="hidden" id="formType" name="formType" value="bid">
+                        <input type="submit" value="Place Bid">
+                    </form>
+                    
+
+
+                </div>
+
+                {% if bidSuccess == 1 %}
+                    <div class="alert alert-success" role="alert">
+                        Bid Successful
+                    </div>
+                {% endif %}
+                {% if bidSuccess == 2 %}
+                <div class="alert alert-danger" role="alert">
+                    Bid Failed
+                </div>
+                {% endif %}
+            
+            {% endif %}
+        </div>
+
+        <div class="card" style="width: 35%;" style="outline: none; border: none; max-height: 10vh;">
+            <h5 class="card-title" style="padding: 10px;">Comments:</h5>
+            <ul style="list-style: none; margin-left: -30px;">
+                {% for c in comments %}
+                    <li>
+                        <div class="card" style="width: 100%; background: rgb(229, 240, 255); padding: 10px;">
+                            <h6 class="card-text">{{c.user}}</h6>
+                            <p class="card-text" style="font-size: small;">{{c.text}}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        {% if user.is_authenticated %}
+            <div  style="float: right; width: 100%;" >
+                
+                <form action="" method="post" style="padding-top: 20px;" autocomplete="off">
+                    {% csrf_token %}
+                    <h5>Enter a comment:</h5>
+                    {{commentForm}}
+                    <input type="hidden" id="formType" name="formType" value="comment">
+                    <input type="submit" value="Comment">
+                </form>
+            </div>
+            
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>Categories</h2>
+
+<div class='row' style="margin: 20px;">
+
+    <ul style="list-style: none;">
+        
+        {% for c in categories %}
+            <li>
+                <a href="{% url 'findWithCategory' c=c.Category %}">{{c}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+
+
+{% endblock %}

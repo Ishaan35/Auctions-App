@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+        <h2>Your WatchList</h2>
+        
+        <div class='row' style="margin: 20px;">
+            {% for l in listings %}
+            <div class="card" style="width: 18rem; margin: 10px; border-radius: 10px; border:1px solid gray; padding: 5px;">
+                <img class="card-img-top" src="{{ l.imageURL }}" alt="">
+        
+                <div class="card-body">
+                    <a href="{% url 'listing' id=l.id %}">
+                        <h5 class="card-title"> {{l.title}}</h5>
+                        <p class="card-text">{{l.description}}</p>
+                        {% if l.currentBid <= 0 %}
+                            <h6 class="card-text"><b>Current Bid:</b> None</h6>
+                        {% else %}
+                            <h6 class="card-text"><b>Current Bid:</b> ${{l.currentBid}}</h6>
+                        {% endif %}
+                    </a>
+        
+        
+                </div>
+        
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+    <a href="{% url 'login' %}">
+        <h1>Log in first</h1>
+    </a>
+    {% endif %}
+    
+
+{% endblock %}
