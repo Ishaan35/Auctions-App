@@ -6,11 +6,7 @@
     {% if user.is_authenticated %}
     <div style="width: 100%; display: flex; align-items: flex-start;">
 
-        {% if listing.buyer == user%}
-            <div class="alert alert-success" role="alert" style="color: white; background: green;" >
-                You won this bid!
-            </div>
-        {% endif %}
+        
     
         <form action="" method="post" style="padding-top: 20px; margin-left: 2%;" autocomplete="off">
             {% csrf_token %}
@@ -36,20 +32,28 @@
         </form>
         {% endif %}
 
+        
+
     </div>
     
     {% endif %}
     <div class='row' style="margin-left: 20px; border-radius: 10px; border:1px solid lightgray; background-color: rgb(190, 237, 255); padding: 20px; width: 95%; display: flex; justify-content: center;">
 
 
-        <div class="card" style="width: 30%; padding: 10px; background-color: rgb(236, 242, 255); max-height: 78vh; overflow-y: auto;"> 
+        <div class="card" style="width: 30%; padding: 10px; background-color: rgb(236, 242, 255); max-height: 80vh; overflow-y: auto;"> 
+            {% if listing.buyer == user%}
+            <div class="alert alert-success" role="alert"
+                style="color: white; background: green; margin-top: 10px;">
+                You won this bid!
+            </div>
+            {% endif %}
             {% if listing.auction_image %}
             <img style="border-radius: 5px;"src="{{ listing.auction_image.url }}" alt="">
             {% else %}
             <img style="border-radius: 5px;" src="{{ listing.imageURL }}" alt="">
             {% endif %}
         </div>
-        <div class="card" style="width: 30%;outline: none; border: none; padding-bottom: 20px; background-color: rgb(241, 255, 239); max-height: 78vh; overflow-y: auto;">
+        <div class="card" style="width: 30%;outline: none; border: none; padding-bottom: 20px; background-color: rgb(241, 255, 239); max-height: 80vh; overflow-y: auto;">
             <h2 class="card-title" style="padding: 10px; color:rgb(91, 91, 91)"> {{listing.title}}</h2>
             <p class="card-text" style="padding-left: 10px; color:rgb(61, 61, 61)">{{listing.description}}</p>
             <p class="card-text" style="padding-left: 10px; color:rgb(61, 61, 61)"><b>Starting Price:</b> ${{listing.startBid}}</p>
@@ -98,7 +102,7 @@
             {% endif %}
         </div>
 
-        <div class="card" style="width: 35%; outline: none; border: 0.5px solid rgb(235, 235, 235); background-color: rgb(246, 249, 255); max-height: 78vh; ">
+        <div class="card" style="width: 35%; outline: none; border: 0.5px solid rgb(235, 235, 235); background-color: rgb(246, 249, 255); max-height: 80vh; ">
             <h2 class="card-title" style="padding: 10px; color:rgb(91, 91, 91)">Comments:</h2>
             <ul style="list-style: none; padding-left: none; margin-left: -30px; width: 100%; display: flex; flex-direction: column; max-height: inherit; overflow-y: auto;">
                 {% for c in comments %}
