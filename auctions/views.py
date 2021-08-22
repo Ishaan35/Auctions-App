@@ -1,3 +1,5 @@
+from .models import User, Category, Listing, Comment, Bid
+from django.forms import ModelForm
 from typing import KeysView, Text
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -9,10 +11,9 @@ from django.urls import reverse
 from django.forms import HiddenInput
 from django import forms
 
+import os
 
-from django.forms import ModelForm
-
-from .models import User, Category, Listing, Comment, Bid
+from decouple import config
 
 
 def index(request):
