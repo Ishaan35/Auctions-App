@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.fields import BLANK_CHOICE_DASH
 from django.utils import timezone
 
 
@@ -32,6 +33,7 @@ class Listing(models.Model):
     seller = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name="sellerListings", null=True, blank=True)
     imageURL = models.CharField(blank=True, max_length=500)
+    auction_image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.title}- starting: {self.startBid}, current: {self.currentBid}"

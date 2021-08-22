@@ -2,15 +2,19 @@
 
 {% block body %}
 
-<h2>Categories</h2>
+<h2 style="padding: 30px; color: #01bd6f">Categories</h2>
 
-<div class='row' style="margin: 20px;">
+<div class='row' style="width: 100%;">
 
-    <ul style="list-style: none;">
+    <ul style="list-style: none; width: 100%; display: flex; flex-direction: column; align-items: center;">
         
         {% for c in categories %}
-            <li>
-                <a href="{% url 'findWithCategory' c=c.Category %}">{{c}}</a>
+            <li style="width: 100%; margin: 5px;">
+                <a href="{% url 'findWithCategory' c=c.Category %}" style="width: 100%;">
+                    <button style="width: 100%;" class="categoryButton">
+                        {{c}}
+                    </button>
+                </a>
             </li>
         {% endfor %}
     </ul>

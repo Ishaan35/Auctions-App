@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,29 @@ USE_L10N = True
 USE_TZ = True
 
 
+# AWS STUFF
+AWS_ACCESS_KEY_ID = "AKIAQ5VJJFTTU2QRLRNU"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "auction-pictures-ishaan"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+S3_USE_SIGV4 = True
+AWS_S3_HOST = "s3.us-east-2.amazonaws.com"
+AWS_S3_REGION_NAME = "us-east-2"
+AWS_S3_ADDRESSING_STYLE = "virtual"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')

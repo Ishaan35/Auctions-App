@@ -3,34 +3,42 @@
 {% block body %}
 
     {% if user.is_authenticated %}
-        <h2>Your WatchList</h2>
+        <h3 style="padding: 30px; color: #01bd6f">Your WatchList</h3>
         
         <div class='row' style="margin: 20px;">
             {% for l in listings %}
-            <div class="card" style="width: 18rem; margin: 10px; border-radius: 10px; border:1px solid gray; padding: 5px;">
-                <img class="card-img-top" src="{{ l.imageURL }}" alt="">
-        
+            <div class="card listingCard">
                 <div class="card-body">
                     <a href="{% url 'listing' id=l.id %}">
-                        <h5 class="card-title"> {{l.title}}</h5>
-                        <p class="card-text">{{l.description}}</p>
-                        {% if l.currentBid <= 0 %}
-                            <h6 class="card-text"><b>Current Bid:</b> None</h6>
+                        {% if l.auction_image %}
+                        <img class="card-img-top listingImage" src="{{ l.auction_image.url }}" alt="">
                         {% else %}
-                            <h6 class="card-text"><b>Current Bid:</b> ${{l.currentBid}}</h6>
+                        <img class="card-img-top listingImage" src="{{ l.imageURL }}" alt="">
                         {% endif %}
+                        <h5 class="card-title linkText"> {{l.title}}</h5>
                     </a>
-        
-        
+                    <p class="card-text">{{l.description}}</p>
+                    {% if l.currentBid <= 0 %}
+                        <h6 class="card-text">Price: ${{l.startBid}}</h6>
+                        {% else %}
+                        <h6 class="card-text" style="color:green">Price: ${{l.currentBid}}</h6>
+                        {% endif %}
+            
+            
                 </div>
-        
             </div>
+            
             {% endfor %}
         </div>
     {% else %}
-    <a href="{% url 'login' %}">
-        <h1>Log in first</h1>
-    </a>
+    <div style="width: 100%; display: flex; justify-content: center; padding-top: 10vh;">
+        <a href="{% url 'login' %}">
+            <button class="loginButton">
+                Login First
+            </button>
+        </a>
+    </div>
+    
     {% endif %}
     
 

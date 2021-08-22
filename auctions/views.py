@@ -1,7 +1,8 @@
+from typing import KeysView, Text
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.db.models.base import Model
-from django.forms.widgets import Textarea
+from django.forms.widgets import FileInput, Input, NumberInput, Select, TextInput, Textarea
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -84,10 +85,15 @@ class ListingForm(ModelForm):
     class Meta:
         model = Listing
         fields = ['title', 'description', 'category',
-                  'startBid', 'imageURL']
+                  'startBid', 'imageURL', 'auction_image']
 
         widgets = {'seller': HiddenInput(attrs={'style': "display:block"}),
-                   'description': Textarea(attrs={'cols': 100, 'rows': 3, 'style': "box-sizing:border-box; width: 100%; display:block"}),
+                   'description': Textarea(attrs={'cols': 100, 'rows': 3, 'class': "descriptionTextBox"}),
+                   'title': TextInput(attrs={'class': "descriptionTextBox", 'style': 'border-radius:3px, width:90vw'}),
+                   'startBid': NumberInput(attrs={'class': "descriptionTextBox", 'style': 'border-radius:3px, width:90vw'}),
+                   'imageURL': TextInput(attrs={'class': "descriptionTextBox", 'style': 'border-radius:3px, width:90vw'}),
+                   'auction_image': FileInput(),
+                   'category': Select(attrs={'class': "dropdownCategory"})
                    }
 
 
@@ -102,7 +108,7 @@ class CommentForm(ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': Textarea(attrs={'cols': 100, 'rows': 3, 'style': "box-sizing:border-box; width: 100%"}),
+            'text': Textarea(attrs={'cols': 100, 'rows': 3, 'style': "box-sizing:border-box; width: 100%;", 'class': "commentBox"}),
         }
 
 
@@ -112,7 +118,8 @@ def newListing(request):
 
     if request.method == "POST":
 
-        listing = ListingForm(request.POST)
+        listing = ListingForm(request.POST, request.FILES)
+        print(request.POST)
         if listing.is_valid():
 
             listing = listing.save(commit=False)
