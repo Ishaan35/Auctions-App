@@ -17,7 +17,7 @@ from decouple import config
 
 
 def index(request):
-    listings = Listing.objects.filter(active=True)
+    listings = Listing.objects.filter(active=True).order_by("-id")
 
     for l in listings:
         if request.user in l.currentlyWatching.all():
@@ -229,7 +229,7 @@ def priceIsEnough(price, listing):
 
 def watchlist(request):
     if not request.user.is_anonymous:
-        listings = request.user.listingsWatched.all()
+        listings = request.user.listingsWatched.all().order_by("-id")
 
         return render(request, "auctions/watchlist.html", {
             "listings": listings,
